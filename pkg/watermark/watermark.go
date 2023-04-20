@@ -2,12 +2,13 @@ package watermark
 
 import (
 	"context"
-	"log"
 	"net/http"
 	"os"
 
 	"github.com/aayushrangwala/watermark-service/internal"
+
 	"github.com/go-kit/kit/log"
+	"github.com/lithammer/shortuuid/v3"
 )
 
 type watermarkService struct{}
@@ -38,6 +39,13 @@ func (w *watermarkService) Watermark(_ context.Context, ticketID, mark string) (
 	// If yes, then return invalid request
 	// return error if no item found using the ticketID
 	return http.StatusOK, nil
+}
+
+func (w *watermarkService) AddDocument(_ context.Context, doc *internal.Document) (string, error) {
+	// add the document entry in the database by calling database service
+	// return error if the doc is invalid and/or the database invalid entry error
+	newTicketID := shortuuid.New()
+	return newTicketID, nil
 }
 
 func (w *watermarkService) ServiceStatus(_ context.Context) (int, error) {
